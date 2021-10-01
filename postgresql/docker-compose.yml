@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres-database:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /tmp/postgresql/data:/var/lib/postgresql/data 
+    networks:
+      - postgres-compose-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "matheus.calegaro@amedigital.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "1234:80"
+    depends_on:
+      - postgres-database
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
+
